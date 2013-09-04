@@ -1,4 +1,4 @@
 websiteflash.github.com
 =======================
 
-test github pages
+welcome to my github blog!
