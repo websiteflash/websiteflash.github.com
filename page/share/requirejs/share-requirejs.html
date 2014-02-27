@@ -28,6 +28,9 @@
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
+    <style type="text/css">
+      .tl{text-align: left;}
+    </style>
   </head>
   <body>
 
@@ -59,8 +62,33 @@
         </section>
 
         <section>
-          <h2>RequireJS 做什么</h2>
-          <p>RequireJS 根据我们的配置，按照依赖关系加载文件或模块</p>
+          <section>
+            <h2>RequireJS 做什么</h2>
+            <img src="image/load.png" />
+            <p>RequireJS 根据我们的配置，按照依赖关系加载文件或模块</p>
+          </section>
+
+          <section>
+            <p class="tl">程序代码：</p>
+            <pre><code>
+    require.config({
+      // 指定模块路径
+      paths:{
+        'jquery':'jquery',
+        'underscore':'underscore',
+        'backbone':'backbone',
+        'jquery.cookie':'jquery.cookie'
+      },
+      shim:{
+        'jquery.cookie':['jquery','underscore','backbone'] // 指定依赖关系
+      }
+    });
+
+    require(['jquery.cookie'], function(){
+      console.log('loaded!');
+    });
+            </code></pre>
+          </section>
         </section>
 
         <section>
@@ -77,7 +105,7 @@
           </section>
 
           <section>
-            <h4 style="text-align:left;">以前我们这样引入js：</h4>
+            <h4 class="tl">以前我们这样引入js：</h4>
             <pre><code>
     &lt;script type="text/javascript" src="1.js"&gt;&lt;/script&gt;
     &lt;script type="text/javascript" src="2.js"&gt;&lt;/script&gt;
@@ -86,14 +114,14 @@
     &lt;script type="text/javascript" src="5.js"&gt;&lt;/script&gt;
     &lt;script type="text/javascript" src="6.js"&gt;&lt;/script&gt;
             </code></pre>
-            <h4 style="text-align:left;">现在我们这样写：</h4>
+            <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
     &lt;script type="text/javascript" src="require.js" data-main="main.js"&gt;&lt;/script&gt;
             </code></pre>
           </section>
 
           <section>
-            <h4 style="text-align:left;">以前我们这样避免冲突：</h4>
+            <h4 class="tl">以前我们这样避免冲突：</h4>
             <pre><code>
     // 匿名函数
     (function(){
@@ -105,21 +133,21 @@
     var QQ = {};
     var QQ.Piao = {};
             </code></pre>
-            <h4 style="text-align:left;">现在我们这样写：</h4>
+            <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
     define('QQ.Piao',[], function(){});
             </code></pre>
           </section>
 
           <section>
-            <h4 style="text-align:left;">以前我们这样解决依赖：</h4>
+            <h4 class="tl">以前我们这样解决依赖：</h4>
             <pre><code>
     /**
      * @reqires login.js
      */
     QQ.Login.quit();
             </code></pre>
-            <h4 style="text-align:left;">现在我们这样写：</h4>
+            <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
     define('QQ.Piao',['base/login.js'], function(login){
       login.quit();
@@ -128,14 +156,14 @@
           </section>
 
           <section>
-            <h4 style="text-align:left;">以前我们这样共用代码：</h4>
+            <h4 class="tl">以前我们这样共用代码：</h4>
             <pre><code>
     /**
      * copy from common.js
      */
     // some code
             </code></pre>
-            <h4 style="text-align:left;">现在我们这样写：</h4>
+            <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
     define('QQ.Piao',['base/common.js'], function(common){
       // some code
@@ -147,11 +175,11 @@
         <section>
           <h2>今天我们不讲什么</h2>
           <ul>
-            <li>AMD还是CMD</li>
-            <li>循环嵌套100层的性能问题</li>
-            <li>哪个模块加载器更好</li>
-            <li>requirejs的优点</li>
-            <li>requirejs的缺点</li>
+            <li>不讲(dong)AMD还是CMD</li>
+            <li>不深(qing)究(chu)循环嵌套100层的性能问题</li>
+            <li>不比(liao)较(jie)哪个模块加载器更好</li>
+            <li>不说(dong)requirejs的优点</li>
+            <li>不说(dong)requirejs的缺点</li>
           </ul>
         </section>
 
@@ -159,11 +187,173 @@
           <h2>今天我们讲点什么</h2>
           <ul>
             <li>requirejs 的基础用法</li>
-            <li>本地打包工具r.js</li>
-            <li>打包配置文件build.js</li>
-            <li>almond.js</li>
-            <li>grunt插件</li>
+            <li>打包工具 r.js</li>
+            <li>配置文件 build.js</li>
+            <li>mini版本 almond.js</li>
+            <li>grunt 插件</li>
           </ul>
+        </section>
+
+        <section>
+          <section>
+            <h3 class="tl">requirejs 的基础用法</h3>
+            <p class="tl">在html中插入script标签</p>
+            <pre><code>
+      &lt;script data-main="scripts/main" src="scripts/require.js"&gt;&lt;/script&gt;
+            </code></pre>
+            <p class="tl">main.js代码如下：</p>
+            <pre><code>
+      // 告诉requirejs程序入口的执行依赖 helper/util.js 这个文件
+      require(["helper/util"], function(util) {
+
+        // 加载完成 helper/util.js 后，程序开始执行
+        util.log('hello world!');
+      });
+            </code></pre>
+            <p class="tl">
+              <br />
+              注意：require只能调用一次，作为一个应用程序的唯一入口
+            </p>
+          </section>
+
+          <section>
+            <p class="tl">require.config基本配置</p>
+            <pre><code>
+    require.config({
+      baseUrl: "/another/path", // 所有模块的根路径
+      paths: {
+          "some": "some/v1.0" // 路径映射
+      },
+      waitSeconds: 15 // 模块加载超时时间
+    });
+
+    // "/another/path/some/v1.0/module"
+    // "/another/path/my/module"
+    // "/another/path/a.js"
+    // "/another/path/b.js"
+    require( ["some/module", "my/module", "a.js", "b.js"],
+      function(someModule,    myModule) {
+        // ...
+      }
+    );
+            </code></pre>
+          </section>
+
+          <section>
+            <p class="tl">require.config依赖管理</p>
+            <pre><code>
+    require.config({
+      shim: {
+        'backbone': {
+            deps: ['underscore', 'jquery'], // 依赖关系
+            exports: 'Backbone' // 定义模块名
+        },
+        'underscore': {
+            exports: '_'
+        },
+        'jquery': {
+            exports: '$'
+        }
+      }
+    });
+    require(['backbone','underscore','jquery'], 
+      function(Backbone, _, $){
+        // ...
+      }
+    );
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>RequireJs模块编写</h2>
+          <pre><code>
+    // 键值对
+    define({
+      color: "black",
+      size: "unisize"
+    });
+
+    // 有方法调用的键值对
+    define(function(){
+      return {
+        color: "black",
+        size: "unisize"
+      }
+    });
+
+    // 有依赖关系的模块
+    define(["lib/jquery", "lib/backbone"],
+      function($, Backbone) {
+          // some code
+        }
+      }
+    );
+
+    // 定义了模块名有依赖关系的模块
+    define('module/hello',["lib/jquery", "lib/backbone"],
+      function($, Backbone) {
+          // some code
+        }
+      }
+    );
+
+    // CMD方式
+    define(function(require, exports, module) {
+        var a = require('a'),
+            b = require('b');
+
+        //Return the module value
+        return function () {};
+      }
+    );
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>模块打包</h2>
+          <p class="tl">安装requirejs</p>
+          <pre><code>
+    > npm install requirejs
+          </code></pre>
+          <p class="tl">执行打包命令</p>
+          <pre><code>
+    > node r.js -o baseUrl=. paths.jquery=some/other/jquery name=main out=main-built.js
+
+    # build.js:
+    #  ({
+    #    baseUrl: ".",
+    #    paths: {
+    #      jquery: "some/other/jquery"
+    #      // jquery: "empty:" // 不包含jquery
+    #    },
+    #    name: "main", // 项目主文件名
+    #    out: "main-built.js" // 编译后生成的文件名
+    #  })
+
+    > node r.js -o build.js
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>mini版RequireJs almond</h2>
+          <p>almond是一个requirejs的mini实现，适用于代码最终会打包成一个文件的项目</p>
+          <pre><code>
+    {
+      baseUrl: '.',
+      name: 'path/to/almond',
+      include: ['main'],
+      out: 'lib-built.js',
+      wrap: {
+        startFile: 'path/to/start.frag',
+        endFile: 'path/to/end.frag'
+      }
+    }
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>grunt插件</h2>
         </section>
       </div>
     </div>
