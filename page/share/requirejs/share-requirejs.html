@@ -129,11 +129,11 @@
             <pre><code>
     // 命名空间
     var QQ = {};
-    var QQ.Piao = {};
+    var QQ.Hello = {};
             </code></pre>
             <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
-    define('QQ.Piao',[], function(){});
+    define('QQ.Hello',[], function(){});
             </code></pre>
           </section>
 
@@ -147,7 +147,7 @@
             </code></pre>
             <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
-    define('QQ.Piao',['base/login.js'], function(login){
+    define('QQ.Hello',['base/login.js'], function(login){
       login.quit();
     });
             </code></pre>
@@ -163,7 +163,7 @@
             </code></pre>
             <h4 class="tl">现在我们这样写：</h4>
             <pre><code>
-    define('QQ.Piao',['base/common.js'], function(common){
+    define('QQ.Hello',['base/common.js'], function(common){
       // some code
     });
             </code></pre>
@@ -400,9 +400,9 @@
         <section>
           <h2>最后，requirejs改变了什么</h2>
           <ul>
-            <li>脚本文件的加载方式</li>
-            <li>文件依赖的管理方式</li>
-            <li>代码的管理方式</li>
+            <li>脚本文件加载的方式</li>
+            <li>文件依赖管理的方式</li>
+            <li>代码管理的方式</li>
             <li>编程的方式</li>
           </ul>
         </section>
