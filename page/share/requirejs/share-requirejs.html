@@ -95,12 +95,10 @@
           <section>
             <h2>RequireJS 解决什么</h2>
             <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
+              <li>脚本文件引入的依赖关系</li>
+              <li>模块化编程</li>
+              <li>代码依赖</li>
+              <li>代码共用</li>
             </ul>
           </section>
 
@@ -187,8 +185,8 @@
           <h2>今天我们讲点什么</h2>
           <ul>
             <li>requirejs 的基础用法</li>
-            <li>打包工具 r.js</li>
-            <li>配置文件 build.js</li>
+            <li>模块编写</li>
+            <li>模块打包</li>
             <li>mini版本 almond.js</li>
             <li>grunt 插件</li>
           </ul>
@@ -336,34 +334,87 @@
         </section>
 
         <section>
-          <h2>mini版RequireJs almond</h2>
-          <p>almond是一个requirejs的mini实现，适用于代码最终会打包成一个文件的项目</p>
+          <section>
+            <h2>mini版RequireJs almond</h2>
+            <p class="tl">almond是一个requirejs的mini实现，适用于代码最终会打包成一个文件的项目</p>
+            <pre><code>
+      {
+        baseUrl: '.',
+        name: 'path/to/almond',
+        include: ['main'],
+        out: 'lib-built.js',
+        wrap: {
+          startFile: 'path/to/start.frag',
+          endFile: 'path/to/end.frag'
+        }
+      }
+            </code></pre>
+            <pre><code>
+      > node r.js -o build.js
+            </code></pre>
+          </section>
+
+          <section>
+            <p class="tl">编译后生成的文件lib-built.js：</p>
+            <pre><code>
+    // start.frag
+    ...
+
+    // almond.js
+    ...
+
+    // main.js and other javascript code
+    ...
+
+    // end.frag
+    ...
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <h2>grunt插件</h2>
+          <p class="tl">grunt-contrib-requirejs</p>
+          <p class="tl">使用r.js编译requirejs项目的grunt插件，用法：</p>
           <pre><code>
-    {
-      baseUrl: '.',
-      name: 'path/to/almond',
-      include: ['main'],
-      out: 'lib-built.js',
-      wrap: {
-        startFile: 'path/to/start.frag',
-        endFile: 'path/to/end.frag'
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+
+    requirejs: {
+      apply: {
+        options: {
+          baseUrl: 'src/app',
+          name: '../vendor/almond',
+          include: 'ApplyMain',
+          out: 'dist/app/apply.js',
+          optimize: 'none',
+          wrap: {
+            start: '(function($, _, Backbone, CC) {',
+            end: '}($, _, Backbone, CC));'
+          }
+        }
       }
     }
           </code></pre>
         </section>
 
         <section>
-          <h2>grunt插件</h2>
+          <h2>最后，requirejs改变了什么</h2>
+          <ul>
+            <li>脚本文件的加载方式</li>
+            <li>文件依赖的管理方式</li>
+            <li>代码的管理方式</li>
+            <li>编程的方式</li>
+          </ul>
         </section>
 
         <section>
           <h2>参考资料</h2>
           <ul>
-            <li><a href=""></a></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li><a href="http://requirejs.org/docs/api.html">http://requirejs.org/docs/api.html</a></li>
+            <li><a href="http://requirejs.org/docs/optimization.html">http://requirejs.org/docs/optimization.html</a></li>
+            <li><a href="https://github.com/jrburke/r.js/blob/master/build/example.build.js">https://github.com/jrburke/r.js/blob/master/build/example.build.js</a></li>
+            <li><a href="https://github.com/jrburke/almond">https://github.com/jrburke/almond</a></li>
+            <li><a href="https://github.com/gruntjs/grunt-contrib-requirejs">https://github.com/gruntjs/grunt-contrib-requirejs</a></li>
           </ul>
         </section>
       </div>
