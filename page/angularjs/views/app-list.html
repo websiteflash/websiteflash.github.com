@@ -1,0 +1,37 @@
+<div class="form form-inline">
+  <input class="form-control" type="text" placeholder="编号" ng-model="model.keys.id">
+  <input class="form-control" type="text" placeholder="仪器名称" ng-model="model.keys.name">
+  <button class="btn btn-primary" type="button" ng-click="action.search()">搜索</button>
+  <button class="btn btn-warning" type="button" ng-click="action.create()">新增仪器</button>
+</div>
+<table class="table table-bordered table-hover ui-mt-middle">
+  <thead>
+    <tr>
+      <th>编号</th>
+      <th>仪器名称</th>
+      <th>仪器型号</th>
+      <th>登记日期</th>
+      <th>更新日期</th>
+      <th>状态</th>
+      <th>负责人</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in model.list">
+      <td>{{item.id}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.type}}</td>
+      <td>{{item.cdate}}</td>
+      <td>{{item.udate}}</td>
+      <td>{{item.state}}</td>
+      <td>{{item.user}}</td>
+      <td>
+        <button class="btn btn-default" ng-click="action.assi(item.id)">分配</button>
+        <button class="btn btn-default" ng-click="action.edit(item.id)">编辑</button>
+        <button class="btn btn-default" ng-click="action.dele(item.id)">删除</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination previous-text="上一页" next-text="下一页" page="model.page.page" total-items="model.page.total"></pagination>

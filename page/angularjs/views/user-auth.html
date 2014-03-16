@@ -1,0 +1,22 @@
+<h4 class="subtitle">编辑用户权限</h4>
+<div class="form" style="width:300px; margin-left:50px;">
+  <div class="form-group">
+    帐号：{{model.user.count}}
+  </div>
+  <div class="form-group">
+    姓名：{{model.user.name}}
+  </div>
+  <div class="form-group">
+    当前角色：{{model.auths[model.user.auth+1].name}}
+  </div>
+  <div class="form-group ui-mt-large">
+    修改角色：
+    <select ng-model="model.select">
+      <option ng-repeat="item in model.auths">{{item.name}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-default" ng-click="action.submit()">提交</button>
+    <button class="btn btn-default" ng-click="action.back()">返回</button>
+  </div>
+</div>
