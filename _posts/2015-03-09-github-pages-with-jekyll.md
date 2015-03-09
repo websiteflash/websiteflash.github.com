@@ -58,6 +58,7 @@ github pages是如何实现这个功能的呢，其实它背后就是jekyll，�
     + 难以满足需求实现，项目主页一般都会包含一些演示demo，这些都不是纯静态html页面能完成的，还需要写css和javascript配合，所以这里markdown的优势就不再明显
     + 项目主页一般都很简单，也不会涉及到过多的页面，所以不存在太多管理和维护上得问题
 
+
 * jekyll更适合是配合github pages搭建个人博客
 
     + markdown的书写方式
