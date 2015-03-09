@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Welcome to Jekyll"
+title:  "Start with Jekyll"
 date:   2015-01-16 00:31:30
-categories: jekyll update
+categories: jekyll
 ---
 
 > 最近准备用jekyll搭建一个博客，用来记录平时学习的笔记，这个做为使用jekyll写得第一篇文章，就记录怎么使用jekyll搭建博客！

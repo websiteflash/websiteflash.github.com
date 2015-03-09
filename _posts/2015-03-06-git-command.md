@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "git 常用操作"
+title: "Git 常用操作"
 date: 2015-03-06 20:03
 categories: git
 ---
