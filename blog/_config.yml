@@ -1,0 +1,12 @@
+# Site settings
+title: 学习笔记
+email: delsen_web@163.com
+description: > # this means to ignore newlines until "baseurl:"
+    本博客使用jekyll构建，用于记录学习笔记。
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://yourdomain.com" # the base hostname & protocol for your site
+twitter_username: websiteflash
+github_username:  websiteflash
+
+# Build settings
+markdown: kramdown
