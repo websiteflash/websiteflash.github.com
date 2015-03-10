@@ -9,7 +9,7 @@ twitter_username: websiteflash
 github_username:  websiteflash
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 
 highlighter: null
 permalink: /:title
