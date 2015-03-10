@@ -11,7 +11,7 @@ github_username:  websiteflash
 # Build settings
 markdown: redcarpet
 
-highlighter: null
+highlighter: pygments
 permalink: /:title
 
 redcarpet:
