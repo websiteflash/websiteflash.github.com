@@ -243,8 +243,9 @@ dl,
   display: inline-block;
   height: 110px;
   width: 110px;
-  background-size: 90px 90px;
-  background-position: left center;
+  border-radius: 55px;
+  background-size: 100% 100%;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
