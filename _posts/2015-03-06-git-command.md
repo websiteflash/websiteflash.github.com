@@ -59,7 +59,7 @@ categories: git
 ```
 git checkout dev # 切换到dev分支
 git checkout -b dev # 创建一个dev分支
-git checkout --orphan dev # 创建一个独立的空分支 
+git checkout --orphan dev # 创建一个独立的分支 
 ```
 
 
