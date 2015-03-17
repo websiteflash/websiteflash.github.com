@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rosin
+title: Rosin-移动端web开发调试利器
 date:   2015-03-17 10:55:30
 categories: rosin
 ---
@@ -9,7 +9,7 @@ categories: rosin
 > Rosin 的开发初衷，是由于我们缺少移动端的调试手段，当涉及到真机调试时，往往只能通过alert、img请求、日志框等方式来获取当前页面的运行状态，这些方法都存在各自的弊端，Rosin就是为解决这些弊端而生。
 
 # Rosin
-A tool for web developers debug mobile page. http://alloyteam.github.io/Rosin/
+A tool for web developers debug mobile page. [http://alloyteam.github.io/Rosin/][http://alloyteam.github.io/Rosin/]
 
 Rosin是一个Fiddler插件，协助开发者进行移动端页面开发调试，是移动端web开发、调试利器。
 
