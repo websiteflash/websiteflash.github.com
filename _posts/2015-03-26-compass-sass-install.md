@@ -23,7 +23,7 @@ categories: compass
 
 # 设置镜像
 
-
+gem sources -a http://ruby.taobao.org/ --http-proxy=http://proxy.tencent.com:8080
 
 # 无网络下安装
 
