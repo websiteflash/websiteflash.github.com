@@ -25,9 +25,9 @@ categories: compass
 
 ruby对应的包管理器rubygem会随ruby一起安装。另外默认的镜像地址是 `https://rubygems.org/` ，有时候也可能没有，可以通过 `gem sources -l` 查看当前的镜像地址列表
 
-由于相关原因， `https://rubygems.org/` 在国内不访问不到的，不过可以使用淘宝提供了镜像地址： `http://ruby.taobao.org/` ，具体做法是：
-1. 先移除原有的镜像地址，`gem sources -r https://rubygems.org/`
-2. 添加新的镜像地址，`gem sources -a http://ruby.taobao.org/`
+由于相关原因， `https://rubygems.org/` 在国内不访问不到的，不过可以使用淘宝提供了镜像地址： `http://ruby.taobao.org/` ，具体做法是：  
+1. 先移除原有的镜像地址，`gem sources -r https://rubygems.org/`  
+2. 添加新的镜像地址，`gem sources -a http://ruby.taobao.org/`  
 
 # 安装comapss
 
@@ -40,7 +40,7 @@ ruby对应的包管理器rubygem会随ruby一起安装。另外默认的镜像�
 采用曲线的方法，通过外网电脑将compass包安装下载好，然后到ruby gems的目录中，找到对应的包，拷贝到内网电脑上，最后运行 `gem install --local compass-1.0.3.gem` ,这样ruby直接从本地文件进行包的安装。
 
 # 各种问题
-1. 公司网络限制，连`gem sources`增加淘宝的镜像地址都不行，只能通过设置公司的代理来解决
+1. 公司网络限制，连 `gem sources` 增加淘宝的镜像地址都不行，只能通过设置公司的代理来解决
 ```
 gem sources -a http://ruby.taobao.org/ --http-proxy=http://proxy.example.com:8080
 ```
