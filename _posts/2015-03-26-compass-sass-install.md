@@ -56,6 +56,8 @@ ruby对应的包管理器rubygem会随ruby一起安装。另外，默认包的�
 gem sources -a http://ruby.taobao.org/ --http-proxy=http://proxy.example.com:8080
 ```
 
+参考链接 [设置镜像代理][link-set-proxy]
+
 2. 无网络安装，两台电脑的ruby版本必须是一致的，否则会出现兼容性问题，导致运行失败
 
 [rubyinstaller]: http://rubyinstaller.org/downloads/
@@ -63,3 +65,5 @@ gem sources -a http://ruby.taobao.org/ --http-proxy=http://proxy.example.com:808
 [img-install-ruby-gems]: /assets/images/compass/install-ruby-gems.jpg
 [img-install-ruby-success]: /assets/images/compass/install-ruby-success.jpg
 [img-install-compass-local]: /assets/images/compass/install-compass-local.jpg
+
+[link-set-proxy]: http://segmentfault.com/a/1190000002435496
