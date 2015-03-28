@@ -15,7 +15,7 @@ List和Array都可以用来表示列表，不同之处是List是不固定长度�
 
 在Rosin运行时报错 `collection was modified enumeration operation may not execute` ，查阅资料得知是collection在foreach时，是不能对其进行修改、增加、删除的，否则会导致报错，解决方案是，在foreach时拷贝一个collection的复制，对复制对象进行foreach，`Collection.ToArray()`
 
-[stackoverflow link][stackoverflow link]
+参考链接 [stackoverflow link][stackoverflow link]
 
 # 文件进程占用
 
