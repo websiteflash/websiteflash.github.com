@@ -1,8 +1,8 @@
 ---
 layout: post
-title: C# 开发调试笔记
+title: Rosin 开发调试笔记
 date:   2015-03-28 12:20:30
-categories: C#
+categories: rosin
 ---
 
 > 开发Fiddler插件Rosin，被各种问题折腾得欲仙欲死，其实开发Fiddler插件很简单，主要是使用C#编程遇到各种问题。跟使用前端脚本编程还是大不相同。
