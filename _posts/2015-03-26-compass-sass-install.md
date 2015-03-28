@@ -52,9 +52,11 @@ ruby对应的包管理器rubygem会随ruby一起安装。另外，默认包的�
 # 各种问题
 
 1. 公司网络限制，连 `gem sources` 增加淘宝的镜像地址都不行，只能通过设置公司的代理来解决
+
 ```
 gem sources -a http://ruby.taobao.org/ --http-proxy=http://proxy.example.com:8080
 ```
+
 参考链接 [设置镜像代理][link-set-proxy]
 
 2. 无网络安装，两台电脑的ruby版本必须是一致的，否则会出现兼容性问题，导致运行失败
