@@ -43,7 +43,7 @@ ruby对应的包管理器rubygem会随ruby一起安装。另外，默认包的�
 
 ![install ruby gems][img-install-ruby-gems]
 
-可以看到里面有compass的安装包以及它的依赖包，将所有的包文件拷贝到内网电脑，cd到放置包的目录，运行 `gems install --local compass-1.0.3.gem`
+可以看到里面有compass的安装包以及它的依赖包，将所有的包文件拷贝到内网电脑，cd到放置包的目录，运行 `gem install --local compass-1.0.3.gem`
 
 ![install ruby compass local][img-install-compass-local]
 
