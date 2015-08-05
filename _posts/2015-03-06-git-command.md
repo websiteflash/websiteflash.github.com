@@ -15,19 +15,27 @@ categories: git
 
 `git clone` 用于克隆一个远程仓库的本地版本
 
-    git clone https://github.com/websiteflash/javascript.git
+```bash
+git clone https://github.com/websiteflash/javascript.git
+```
 
 # git add
 
 `git add <filename>` 将修改的文件添加到缓存区，以备后续提交
 
-    git add .
+```bash
+git add .
+
+git add ./ --all
+```
 
 # git commit
 
 `git commit -m "commit log message"` 将缓存区的代码提交，但是还未发送到远端代码库
 
-    git commit -m "init project"
+```bash
+git commit -m "init project"
+```
 
 # git push
 
@@ -47,8 +55,11 @@ categories: git
 
 `git log` 查看提交的日志记录，可以待负数，表示最近的几条日志，默认显示全部
 
-    git log -1  # 查看最近的一条日志
-    git log -5  # 查看最近的5天日志
+```bash
+git log -1  # 查看最近的一条日志
+
+git log -5  # 查看最近的5天日志
+```
 
 # git branch
 
@@ -56,9 +67,11 @@ categories: git
 
 # git checkout
 
-```
+```bash
 git checkout dev # 切换到dev分支
+
 git checkout -b dev # 创建一个dev分支
+
 git checkout --orphan dev # 创建一个独立的分支 
 ```
 
