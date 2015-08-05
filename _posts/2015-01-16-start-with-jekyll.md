@@ -11,11 +11,17 @@ categories: jekyll
 
 只需要简单几步就可以完成安装
 
-    $ gem install jekyll
-    $ jekyll new myblog
-    $ cd myblog
-    ~/myblog $ jekyll server
-    # => Now browse to http://localhost:4000
+```bash
+$ gem install jekyll
+
+$ jekyll new myblog
+
+$ cd myblog
+
+~/myblog $ jekyll server
+
+# => Now browse to http://localhost:4000
+```
 
 执行上面几步后就在本地初始化好了一个博客系统，执行`jekyll server`启动博客，之后就可以通过浏览器访问了。
 
@@ -44,14 +50,16 @@ categories: jekyll
 
 参考格式：
 
-    ---
-    layout: post
-    title:  "Welcome to Jekyll!"
-    date:   2015-01-16 00:31:30
-    categories: jekyll update
-    ---
+```
+---
+layout: post
+title:  "Welcome to Jekyll!"
+date:   2015-01-16 00:31:30
+categories: jekyll update
+---
 
-    这里是文章内容开始！！
+这里是文章内容开始！！
+```
 
 参数说明：
 

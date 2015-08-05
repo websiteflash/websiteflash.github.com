@@ -38,15 +38,21 @@ github pages是如何实现这个功能的呢，其实它背后就是jekyll，�
 
 按照上面的步骤安装完成后，只是建好了jekyll的目录，此时只能根据markdown生成一个没有样式的简单文件，我们还需要初始化jekyll的必要目录，项目目录下执行
 
-    bundle exec jekyll new ./
+```bash
+bundle exec jekyll new ./
+```
 
 这会收到一个错误提示：
 
-    Conflict: /Users/test/Documents/code/github/websiteflash.github.com exists and is not empty.
+```bash
+Conflict: /Users/test/Documents/code/github/websiteflash.github.com exists and is not empty.
+```
 
 此时我们只能先将现有目录下得文件拷贝到一个临时目录，待安装完成后再拷贝出来，new的执行方式也稍微调整
 
-    jekyll new ./
+```bash
+jekyll new ./
+```
 
 这样就可以生成带样式的页面
 
