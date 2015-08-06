@@ -13,7 +13,7 @@ categories: rosin
 
 搞清楚这个问题，那设置图标的代码就很简单
 
-```
+```c#
 TabPage oPage = new TabPage("Rosin");
 
 oPage.Controls.Add(this.oConfigControl);
@@ -31,7 +31,7 @@ oPage.ImageKey = "Rosin";
 
 京东的同学给我反馈，在使用时报了一个奇怪的错误，`尝试访问违反安全按透明规则的方法`，一开始我以为是京东内部it系统做了什么限制，导致没有权限。后来，google了一下，发现这个是.Net Framework 4中引入的一个特性，可以设置代码的执行权限，具体说明可以看下[官网文档](https://msdn.microsoft.com/zh-cn/library/dd233102(v=vs.110).aspx)，要解决这个报错，按照官方的示例写就可以，即将下面的代码添加到 `Properties/AssemblyInfo.cs`
 
-```
+```c#
 [assembly: SecurityRules(SecurityRuleSet.Level1)]
 ```
 
@@ -39,7 +39,7 @@ oPage.ImageKey = "Rosin";
 
 出现的原因不是很清楚，只是在低版本的Fiddler上会出现这个问题，编译也不能通过，应该是缺少部分类的原因，修复方案就是自己写一个静态类，可以参考下这篇文章，[链接](http://www.cnblogs.com/zihuxinyu/archive/2013/05/06/3063181.html)
 
-```
+```c#
 //缺少编译器要求的成员“ystem.Runtime.CompilerServices.ExtensionAttribute..ctor”
 namespace System.Runtime.CompilerServices
 {

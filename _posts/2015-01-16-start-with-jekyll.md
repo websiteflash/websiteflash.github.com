@@ -14,10 +14,10 @@ categories: jekyll
     $ gem install jekyll
     $ jekyll new myblog
     $ cd myblog
-    ~/myblog $ jekyll serve
+    ~/myblog $ jekyll server
     # => Now browse to http://localhost:4000
 
-执行上面几步后就在本地初始化好了一个博客系统，执行`jekyll serve`启动博客，之后就可以通过浏览器访问了。
+执行上面几步后就在本地初始化好了一个博客系统，执行`jekyll server`启动博客，之后就可以通过浏览器访问了。
 
 # 环境依赖
 
