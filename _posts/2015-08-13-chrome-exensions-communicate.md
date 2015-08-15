@@ -47,7 +47,7 @@ chrome插件的实现形式有多种，包含不通的组件部分，下面这�
     });
     window.postMessage({from:'content', text:'hello, web scrips.'}, '*');
     ```
-2. content scrips 和 Background Page之间，通过chrome.runtime.onMessage进行通信
+2. content scrips 和 Background Page之间，通过chrome.runtime.onMessage进行通信，还可以通过chrome.tab由Background Page到content scrips
 
     ```javascript
     // in content scripts
@@ -60,7 +60,19 @@ chrome插件的实现形式有多种，包含不通的组件部分，下面这�
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log(request);
     });
-    chrome.runtime.sendMessage('hello, content scrip, i am from background page.');
+    chrome.runtime.sendMessage('hello, content script, i am from background page.');
+
+    // 还可以通过chrome.tab从Background Page到content scripts传递消息
+
+    // in content scripts
+    chrome.extension.onMessage.addListener(function(request){
+        console.log(request); 
+    });
+
+    // in background page
+    chrome.tabs.query({active: true}, function(tab){
+        tab.sendMessage('hello, content script, from background page.');
+    });
     ```
 3. Background Page 和 Devtools Page之间，通过chrome.runtime.onConnect进行通信
 
