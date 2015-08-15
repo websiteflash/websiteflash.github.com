@@ -130,7 +130,8 @@ chrome插件的实现形式有多种，包含不通的组件部分，下面这�
     );
     ```
 
-组件间的通信大致就是这样。
+组件间的通信大致就是这样。完整demo参考[chrome extension message demo][demo]
 
 [img-devtools-extension]: /assets/images/chrome/devtools-extension.png
 [img-message]: /assets/images/chrome/message.png
+[demo]: https://github.com/websiteflash/websiteflash.github.com/tree/master/public/demo/chrome-extension-message-demo
