@@ -71,7 +71,7 @@ chrome插件的实现形式有多种，包含不通的组件部分，下面这�
 
     // in background page
     chrome.tabs.query({active: true}, function(tab){
-        chrome.tabs.sendMessage(tab.id, 'hello, content script, from background page.');
+        chrome.tabs.sendMessage(tab[0].id, 'hello, content script, from background page.');
     });
     ```
 3. Background Page 和 Devtools Page之间，通过chrome.runtime.onConnect进行通信
