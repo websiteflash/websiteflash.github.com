@@ -7,10 +7,15 @@ window.onload = () => {
     renderPlaces(places);
 };
 
-// window.navigator.geolocation.getCurrentPosition(function (position) {
-//     console.log(position.coords.latitude)
-//     console.log(position.coords.longitude)
-// })
+var curlat = 0;
+var curlng = 0;
+window.navigator.geolocation.getCurrentPosition(function (position) {
+    curlat = position.coords.latitude
+    curlng = position.coords.longitude
+
+    console.log(position.coords.latitude)
+    console.log(position.coords.longitude)
+})
 
 function staticLoadPlaces() {
     return [
@@ -20,8 +25,8 @@ function staticLoadPlaces() {
                 // decomment the following and add coordinates:
                 // lat: <your-latitude>,
                 // lng: <your-longitude>,
-                lat: 22.526132399999998,
-                lng: 113.93040230000001,
+                lat: curlat,
+                lng: curlng,
             },
         },
     ];
