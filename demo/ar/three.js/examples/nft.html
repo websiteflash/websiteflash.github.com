@@ -170,9 +170,9 @@
         var threeGLTFLoader = new THREE.GLTFLoader();
         var model;
 
-        threeGLTFLoader.load("./resources/Flamingo.glb", function (gltf) {
+        threeGLTFLoader.load("../../assets/dragonite/scene.gltf", function (gltf) {
             model = gltf.scene.children[0];
-            model.name = 'Flamingo';
+            model.name = 'dragonite';
 
             var animation = gltf.animations[0];
             var mixer = new THREE.AnimationMixer(model);
