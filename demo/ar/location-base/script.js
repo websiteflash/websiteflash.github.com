@@ -7,6 +7,11 @@ window.onload = () => {
     renderPlaces(places);
 };
 
+// window.navigator.geolocation.getCurrentPosition(function (position) {
+//     console.log(position.coords.latitude)
+//     console.log(position.coords.longitude)
+// })
+
 function staticLoadPlaces() {
     return [
         {
@@ -15,6 +20,8 @@ function staticLoadPlaces() {
                 // decomment the following and add coordinates:
                 // lat: <your-latitude>,
                 // lng: <your-longitude>,
+                lat: 22.526132399999998,
+                lng: 113.93040230000001,
             },
         },
     ];
