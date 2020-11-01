@@ -5,14 +5,10 @@
 <script src='vendor/three.js/build/three.min.js'></script>
 <!-- three.js load GLTF -->
 <script src='vendor/three.js/GLTFLoader.js'></script>
-<!-- ar.js -->
-<script src='../build/ar-nft.js'></script>
-
-<script>THREEx.ArToolkitContext.baseURL = '../'</script>
 
 <body style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin : 0px; overflow: hidden;'>
     <style>
-        .arjs-loader {
+        /* .arjs-loader {
             margin: 0 auto;
             width: 100%;
             height: 100%;
@@ -22,9 +18,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
+        } */
 
-        .arjs-loader-spinner {
+        /* .arjs-loader-spinner {
             z-index: 10;
             -webkit-transform: spin 1s linear infinite;
             animation: spin 1s linear infinite;
@@ -33,7 +29,7 @@
             border-radius: 50%;
             height: 75px;
             width: 75px;
-        }
+        } */
 
         @-webkit-keyframes spin {
             to {
@@ -86,8 +82,10 @@
         //////////////////////////////////////////////////////////////////////////////////
 
         // Create a camera
-        var camera = new THREE.Camera();
+        // var camera = new THREE.Camera();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000)
         scene.add(camera);
+        camera.position.z = 50
 
         var light = new THREE.AmbientLight(0xffffff);
         scene.add(light);
@@ -96,72 +94,78 @@
         //          handle arToolkitSource
         ////////////////////////////////////////////////////////////////////////////////
 
-        var arToolkitSource = new THREEx.ArToolkitSource({
-            sourceType : 'webcam',
-            sourceWidth: 480,
-            sourceHeight: 640,
-        })
+        // var arToolkitSource = new THREEx.ArToolkitSource({
+        //     sourceType : 'webcam',
+        //     sourceWidth: 480,
+        //     sourceHeight: 640,
+        // })
 
-        arToolkitSource.init(function onReady(){
-            // use a resize to fullscreen mobile devices
-            setTimeout(function() {
-                onResize()
-            }, 1000);
-        })
+        // arToolkitSource.init(function onReady(){
+        //     // use a resize to fullscreen mobile devices
+        //     setTimeout(function() {
+        //         onResize()
+        //     }, 1000);
+        // })
 
         // handle resize
-        window.addEventListener('resize', function(){
-            onResize()
-        })
+        // window.addEventListener('resize', function(){
+        //     onResize()
+        // })
 
         // listener for end loading of NFT marker
-        window.addEventListener('arjs-nft-loaded', function(ev){
-          console.log(ev);
-        })
+        // window.addEventListener('arjs-nft-loaded', function(ev){
+        //   console.log(ev);
+        // })
 
-        function onResize(){
-            arToolkitSource.onResizeElement()
-            arToolkitSource.copyElementSizeTo(renderer.domElement)
-            if( arToolkitContext.arController !== null ){
-                arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
-            }
-        }
+        // function onResize(){
+        //     arToolkitSource.onResizeElement()
+        //     arToolkitSource.copyElementSizeTo(renderer.domElement)
+        //     if( arToolkitContext.arController !== null ){
+        //         arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+        //     }
+        // }
 
         ////////////////////////////////////////////////////////////////////////////////
         //          initialize arToolkitContext
         ////////////////////////////////////////////////////////////////////////////////
 
         // create atToolkitContext
-        var arToolkitContext = new THREEx.ArToolkitContext({
-            detectionMode: 'mono',
-            canvasWidth: 480,
-            canvasHeight: 640,
-        }, {
-            sourceWidth: 480,
-            sourceHeight: 640,
-        })
+        // var arToolkitContext = new THREEx.ArToolkitContext({
+        //     detectionMode: 'mono',
+        //     canvasWidth: 480,
+        //     canvasHeight: 640,
+        // }, {
+        //     sourceWidth: 480,
+        //     sourceHeight: 640,
+        // })
 
         // initialize it
-        arToolkitContext.init(function onCompleted(){
-            // copy projection matrix to camera
-            camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
-        })
+        // arToolkitContext.init(function onCompleted(){
+        //     // copy projection matrix to camera
+        //     camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+        // })
 
         ////////////////////////////////////////////////////////////////////////////////
         //          Create a ArMarkerControls
         ////////////////////////////////////////////////////////////////////////////////
 
         // init controls for camera
-        var markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
-            type : 'nft',
-            descriptorsUrl : 'data/dataNFT/kouzhao',
-            changeMatrixMode: 'cameraTransformMatrix'
-        })
+        // var markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
+        //     type : 'nft',
+        //     descriptorsUrl : 'data/dataNFT/kouzhao',
+        //     changeMatrixMode: 'cameraTransformMatrix'
+        // })
 
-        scene.visible = false
+        // scene.visible = false
 
         var root = new THREE.Object3D();
         scene.add(root);
+
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        const cube = new THREE.Mesh( geometry, material );
+        // scene.add( cube );
 
         //////////////////////////////////////////////////////////////////////////////////
         //		add an object in the scene
@@ -187,6 +191,9 @@
             model.position.x = 0;
             model.position.y = 0;
 
+            // camera.position.z = -1;
+
+            console.log('model load success!')
 
             //////////////////////////////////////////////////////////////////////////////////
             //		render the whole thing on the page
@@ -201,14 +208,16 @@
                     }
                 }
 
-                if (!arToolkitSource.ready) {
-                    return;
-                }
+                // if (!arToolkitSource.ready) {
+                //     return;
+                // }
 
-                arToolkitContext.update( arToolkitSource.domElement )
+                // arToolkitContext.update( arToolkitSource.domElement )
 
                 // update scene.visible if the marker is seen
-                scene.visible = camera.visible;
+                // scene.visible = camera.visible = true;
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
 
                 renderer.render(scene, camera);
             };
