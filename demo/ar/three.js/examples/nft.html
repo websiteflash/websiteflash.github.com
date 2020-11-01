@@ -170,9 +170,9 @@
         var threeGLTFLoader = new THREE.GLTFLoader();
         var model;
 
-        threeGLTFLoader.load("../../location-base/assets/articuno/scene.gltf", function (gltf) {
+        threeGLTFLoader.load("../../location-base/assets/dragonite/scene.gltf", function (gltf) {
             model = gltf.scene.children[0];
-            // model.name = 'dragonite';
+            model.name = 'dragonite';
 
             var animation = gltf.animations[0];
             var mixer = new THREE.AnimationMixer(model);
@@ -183,9 +183,9 @@
             root.matrixAutoUpdate = false;
             root.add(model);
 
-            model.position.z = -300;
-            model.position.x = 0;
-            model.position.y = 0;
+            // model.position.z = -200;
+            model.position.x = 100;
+            model.position.y = 100;
 
 
             //////////////////////////////////////////////////////////////////////////////////
