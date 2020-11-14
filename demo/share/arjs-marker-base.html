@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arjs-markder-base</title>
+    <script src="./vendor/three.min.js"></script>
+    <script src="./vendor/ar.js"></script>
+    <script>THREEx.ArToolkitContext.baseURL = './'</script>
+</head>
+
+<body>
+
+    <script>
+        // local url: http://localhost:3000/github/websiteflash.github.com/demo/share/arjs-marker-base.html
+        var onRenderFcts= [];
+        // init scene
+        var renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+        renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+        renderer.setSize(640, 480);
+        renderer.domElement.style.position = 'absolute'
+        renderer.domElement.style.top = '0px'
+        renderer.domElement.style.left = '0px'
+        document.body.appendChild(renderer.domElement);
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.Camera();
+        scene.add(camera);
+
+        // init artoolkit
+        var arToolkitSource = new THREEx.ArToolkitSource({
+            sourceType: 'webcam',
+        })
+
+        arToolkitSource.init(function onReady() {
+            setTimeout(() => {
+                onResize()
+            }, 2000);
+        })
+
+        window.addEventListener('resize', function () {
+            onResize()
+        })
+
+        // resize
+        function onResize() {
+            arToolkitSource.onResizeElement()
+            arToolkitSource.copyElementSizeTo(renderer.domElement)
+            if (arToolkitContext.arController !== null) {
+                arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+            }
+        }
+
+        // 配置渲染模型
+        var arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: THREEx.ArToolkitContext.baseURL + './data/camera_para.dat',
+            detectionMode: 'mono',
+        })
+        arToolkitContext.init(function onCompleted() {
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+        })
+        onRenderFcts.push(function () {
+            if (arToolkitSource.ready === false) return
+            arToolkitContext.update(arToolkitSource.domElement)
+            scene.visible = camera.visible
+        })
+
+        // 初始化模版标记
+        var markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
+            type: 'pattern',
+            patternUrl: THREEx.ArToolkitContext.baseURL + './data/patt.hiro',
+            changeMatrixMode: 'cameraTransformMatrix'
+        })
+        // scene.visible = false
+
+        // 增加3D模型
+        var geometry = new THREE.CubeGeometry(1, 1, 1);
+        var material = new THREE.MeshNormalMaterial({
+            transparent: true,
+            opacity: 0.5,
+            side: THREE.DoubleSide
+        });
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.y = geometry.parameters.height / 2
+        scene.add(mesh);
+
+        var geometry = new THREE.TorusKnotGeometry(0.3, 0.1, 64, 16);
+        var material = new THREE.MeshNormalMaterial();
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.y = 0.5
+        scene.add(mesh);
+
+        onRenderFcts.push(function (delta) {
+            mesh.rotation.x += Math.PI * delta
+        })
+
+        onRenderFcts.push(function () {
+            renderer.render(scene, camera);
+        })
+
+        // 循环渲染
+        var lastTimeMsec = null
+        requestAnimationFrame(function animate(nowMsec) {
+            requestAnimationFrame(animate);
+            lastTimeMsec = lastTimeMsec || nowMsec - 1000 / 60
+            var deltaMsec = Math.min(200, nowMsec - lastTimeMsec)
+            lastTimeMsec = nowMsec
+            onRenderFcts.forEach(function (onRenderFct) {
+                onRenderFct(deltaMsec / 1000, nowMsec / 1000)
+            })
+        })
+
+    </script>
+
+</body>
+
+</html>
