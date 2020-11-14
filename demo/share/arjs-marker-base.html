@@ -14,6 +14,7 @@
 
     <script>
         // local url: http://localhost:3000/github/websiteflash.github.com/demo/share/arjs-marker-base.html
+        // web url: https://websiteflash.github.io/demo/share/arjs-marker-base.html
         var onRenderFcts= [];
         // init scene
         var renderer = new THREE.WebGLRenderer({
@@ -55,11 +56,12 @@
             }
         }
 
-        // 配置渲染模型
+        // 配置识别模式
         var arToolkitContext = new THREEx.ArToolkitContext({
             cameraParametersUrl: THREEx.ArToolkitContext.baseURL + './data/camera_para.dat',
-            detectionMode: 'mono',
+            detectionMode: 'color_and_matrix',
         })
+
         arToolkitContext.init(function onCompleted() {
             camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
         })
@@ -69,13 +71,13 @@
             scene.visible = camera.visible
         })
 
-        // 初始化模版标记
+        // 配置控制追踪
         var markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
             type: 'pattern',
             patternUrl: THREEx.ArToolkitContext.baseURL + './data/patt.hiro',
             changeMatrixMode: 'cameraTransformMatrix'
         })
-        // scene.visible = false
+        scene.visible = false
 
         // 增加3D模型
         var geometry = new THREE.CubeGeometry(1, 1, 1);

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arjs-nft</title>
+    <script src="./vendor/three.min.js"></script>
+    <script src="./vendor/GLTFLoader.js"></script>
+    <script src="./vendor/ar-nft.js"></script>
+    <script>THREEx.ArToolkitContext.baseURL = './'</script>
+</head>
+
+<body>
+    <script>
+        // local url: http://localhost:3000/github/websiteflash.github.com/demo/share/arjs-nft.html
+        // web url: https://websiteflash.github.io/demo/share/arjs-nft.html
+        // init scene
+        var renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            precision: 'mediump',
+        });
+        var clock = new THREE.Clock();
+        var mixers = [];
+
+        // renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        // renderer.setSize(640, 480);
+        renderer.domElement.style.position = 'absolute'
+        renderer.domElement.style.top = '0px'
+        renderer.domElement.style.left = '0px'
+        document.body.appendChild(renderer.domElement);
+
+        var scene = new THREE.Scene();
+        // var camera = new THREE.Camera();
+        var camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000)
+        scene.add(camera);
+        camera.position.z = 50
+        scene.add(camera);
+
+        var light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+
+        // init artoolkit
+        var arToolkitSource = new THREEx.ArToolkitSource({
+            sourceType: 'webcam',
+            // sourceWidth: 480,
+            // sourceHeight: 640,
+        })
+
+        arToolkitSource.init(function onReady() {
+            setTimeout(function () {
+                onResize()
+            }, 1000);
+        })
+
+        window.addEventListener('resize', function () {
+            onResize()
+        })
+
+        // listener for end loading of NFT marker
+        window.addEventListener('arjs-nft-loaded', function (ev) {
+            console.log(ev);
+        })
+
+        function onResize() {
+            arToolkitSource.onResizeElement()
+            arToolkitSource.copyElementSizeTo(renderer.domElement)
+            if (arToolkitContext.arController !== null) {
+                arToolkitSource.copyElementSizeTo(arToolkitContext.arController.canvas)
+            }
+        }
+
+        // 配置识别模式
+        var arToolkitContext = new THREEx.ArToolkitContext({
+            cameraParametersUrl: THREEx.ArToolkitContext.baseURL + './data/camera_para.dat',
+            detectionMode: 'mono',
+            // canvasWidth: 480,
+            // canvasHeight: 640,
+        }, {
+            // sourceWidth: 480,
+            // sourceHeight: 640,
+        })
+        arToolkitContext.init(function onCompleted() {
+            camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+        })
+
+        // 配置控制追踪
+        var markerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
+            type: 'nft',
+            descriptorsUrl: './data/dataNFT/nft',
+            changeMatrixMode: 'cameraTransformMatrix'
+        })
+
+        scene.visible = false
+
+        // 加载3D模型
+        var root = new THREE.Object3D();
+        scene.add(root);
+
+        var threeGLTFLoader = new THREE.GLTFLoader();
+        var model;
+
+        threeGLTFLoader.load("./assets/articuno/scene.gltf", function (gltf) {
+            model = gltf.scene.children[0];
+            model.name = 'articuno';
+
+            var animation = gltf.animations[0];
+            var mixer = new THREE.AnimationMixer(model);
+            mixers.push(mixer);
+            var action = mixer.clipAction(animation);
+            action.play();
+
+            root.matrixAutoUpdate = false;
+            root.add(model);
+
+            // model.position.z = -100;
+            // model.position.x = 100;
+            // model.position.y = 100;
+            model.position.z = -200;
+            model.position.x = 400;
+            model.position.y = -200;
+            
+            model.rotation.y = 350;
+            model.rotation.x = -150;
+            model.rotation.x = 0;
+
+
+            //////////////////////////////////////////////////////////////////////////////////
+            //		render the whole thing on the page
+            //////////////////////////////////////////////////////////////////////////////////
+
+            var animate = function () {
+                requestAnimationFrame(animate);
+
+                if (mixers.length > 0) {
+                    for (var i = 0; i < mixers.length; i++) {
+                        mixers[i].update(clock.getDelta());
+                    }
+                }
+
+                if (!arToolkitSource.ready) {
+                    return;
+                }
+
+                arToolkitContext.update(arToolkitSource.domElement)
+
+                // update scene.visible if the marker is seen
+                scene.visible = camera.visible;
+
+                renderer.render(scene, camera);
+            };
+
+            requestAnimationFrame(animate);
+        })
+
+    </script>
+
+</body>
+
+</html>
