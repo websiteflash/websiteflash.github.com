@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handpose Demo</title>
+
+    <!-- Require the peer dependencies of handpose. -->
+    <script src="./vendor/tf-core.js"></script>
+    <script src="./vendor/tf-converter.js"></script>
+
+    <!-- You must explicitly require a TF.js backend if you're not using the tfs union bundle. -->
+    <script src="./vendor/tf-backend-webgl.js"></script>
+    <!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
+
+    <script src="./vendor/handpose.js"></script>
+</head>
+
+<body>
+    <video id="videoElement" width="640" height="500" style="display: none;"></video>
+    <canvas id="canvasElement" width="640" height="500"></canvas>
+
+    <script>
+        let model;
+        let ctx;
+        let video = document.getElementById("videoElement");
+        let canvas = document.getElementById("canvasElement");
+
+        function displayImagesAtFingerTop(landmarks) {
+            for (let i = 0; i < landmarks.length; i++) {
+                const x = landmarks[i][0];
+                const y = landmarks[i][1];
+
+                ctx.fillStyle = "#0000FF";
+                ctx.fillRect(x - 2, y - 2, 4, 4);
+            }
+        }
+
+        async function main() {
+            model = await handpose.load();
+
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(e => {
+                        console.log("Error Occurred in getting the video stream");
+                    });
+            }
+
+            video.onloadedmetadata = () => {
+                ctx = canvas.getContext('2d');
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                requestAnimationFrame(predict);
+            };
+        }
+
+        async function predict() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const predictions = await model.estimateHands(video);
+            if (predictions.length > 0) {
+                const landmarks = predictions[0].landmarks;
+                displayImagesAtFingerTop(landmarks);
+            }
+
+            requestAnimationFrame(predict);
+        }
+
+        main()
+    </script>
+</body>
+
+</html>

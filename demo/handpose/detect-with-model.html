@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handpose Demo</title>
+
+    <script src='./vendor/three.min.js'></script>
+    <script src='./vendor/GLTFLoader.js'></script>
+
+    <!-- Require the peer dependencies of handpose. -->
+    <script src="./vendor/tf-core.js"></script>
+    <script src="./vendor/tf-converter.js"></script>
+
+    <!-- You must explicitly require a TF.js backend if you're not using the tfs union bundle. -->
+    <script src="./vendor/tf-backend-webgl.js"></script>
+    <!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
+
+    <script src="./vendor/handpose.js"></script>
+</head>
+
+<body>
+    <video id="videoElement" width="640" height="500" style="display: none;"></video>
+    <canvas id="canvasElement" width="640" height="500"></canvas>
+
+    <script>
+        let model;
+        let model3D;
+        let ctx;
+        let video = document.getElementById("videoElement");
+        let canvas = document.getElementById("canvasElement");
+
+        function displayImagesAtFingerTop(landmarks) {
+            for (let i = 0; i < landmarks.length; i++) {
+                const x = landmarks[i][0];
+                const y = landmarks[i][1];
+
+                ctx.fillStyle = "#0000FF";
+                ctx.fillRect(x - 2, y - 2, 4, 4);
+
+                if(i == 8){
+                    if(model3D){
+                        model3D.position.x = (320 - landmarks[i][0])/2
+                        model3D.position.y = (250 - landmarks[i][1])/2 - 50
+                        model3D.position.z = landmarks[i][2] * 2 - 200
+                    }
+                    // console.log(landmarks[i][0], landmarks[i][1], landmarks[i][2])
+                }
+            }
+        }
+
+        async function main() {
+            model = await handpose.load();
+
+            if (navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                        video.play();
+                    })
+                    .catch(e => {
+                        console.log("Error Occurred in getting the video stream");
+                    });
+            }
+
+            video.onloadedmetadata = () => {
+                ctx = canvas.getContext('2d');
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+                requestAnimationFrame(predict);
+            };
+        }
+
+        async function predict() {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const predictions = await model.estimateHands(video);
+            if (predictions.length > 0) {
+                const landmarks = predictions[0].landmarks;
+                displayImagesAtFingerTop(landmarks);
+            }
+
+            requestAnimationFrame(predict);
+            ctx.fillStyle = "#0000FF";
+            ctx.fillRect(- 2, - 2, 14, 14);
+        }
+
+        function initThreeJS() {
+            var renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true,
+                precision: 'mediump',
+            });
+
+            var clock = new THREE.Clock();
+
+            var mixers = [];
+
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setSize(640, 500);
+            renderer.domElement.style.position = 'absolute'
+            renderer.domElement.style.top = '0px'
+            renderer.domElement.style.left = '0px'
+            document.body.appendChild(renderer.domElement);
+
+            // init scene and camera
+            var texture = new THREE.CanvasTexture(canvas);
+            var scene = new THREE.Scene({
+                background: texture
+            });
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000)
+            scene.add(camera);
+            camera.position.z = 50
+
+            var light = new THREE.AmbientLight(0xffffff);
+            scene.add(light);
+
+            var root = new THREE.Object3D();
+            scene.add(root);
+
+            const geometry = new THREE.BoxGeometry();
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+
+            var threeGLTFLoader = new THREE.GLTFLoader();
+
+            threeGLTFLoader.load("./assets/articuno/scene.gltf", function (gltf) {
+                model3D = gltf.scene.children[0];
+
+                var animation = gltf.animations[0];
+                var mixer = new THREE.AnimationMixer(model3D);
+                mixers.push(mixer);
+                var action = mixer.clipAction(animation);
+                action.play();
+
+                root.matrixAutoUpdate = false;
+                root.add(model3D);
+
+                model3D.position.z = -200;
+                model3D.position.x = 0;
+                model3D.position.y = 0;
+
+                // 396 235 -43
+
+
+                var animate = function () {
+                    requestAnimationFrame(animate);
+
+                    if (mixers.length > 0) {
+                        for (var i = 0; i < mixers.length; i++) {
+                            mixers[i].update(clock.getDelta());
+                        }
+                    }
+
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.01;
+
+                    renderer.render(scene, camera);
+                };
+
+                requestAnimationFrame(animate);
+            })
+        }
+
+        main()
+        initThreeJS()
+    </script>
+</body>
+
+</html>

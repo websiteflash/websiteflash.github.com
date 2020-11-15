@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+<script src='./vendor/three.min.js'></script>
+<script src='./vendor/GLTFLoader.js'></script>
+
+<body style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin : 0px; overflow: hidden;'>    
+    <script>
+
+        var renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            precision: 'mediump',
+        });
+
+        var clock = new THREE.Clock();
+
+        var mixers = [];
+
+        renderer.setPixelRatio(window.devicePixelRatio);
+
+        renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+        renderer.setSize( 640, 500);
+        renderer.domElement.style.position = 'absolute'
+        renderer.domElement.style.top = '0px'
+        renderer.domElement.style.left = '0px'
+        document.body.appendChild( renderer.domElement );
+
+        // init scene and camera
+        var scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000)
+        scene.add(camera);
+        camera.position.z = 50
+
+        var light = new THREE.AmbientLight(0xffffff);
+        scene.add(light);
+
+        var root = new THREE.Object3D();
+        scene.add(root);
+
+
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        const cube = new THREE.Mesh( geometry, material );
+        scene.add( cube );
+
+
+        var threeGLTFLoader = new THREE.GLTFLoader();
+        var model;
+
+        threeGLTFLoader.load("./assets/magnemite/scene.gltf", function (gltf) {
+            model = gltf.scene.children[0];
+
+            var animation = gltf.animations[0];
+            var mixer = new THREE.AnimationMixer(model);
+            mixers.push(mixer);
+            var action = mixer.clipAction(animation);
+            action.play();
+
+            root.matrixAutoUpdate = false;
+            root.add(model);
+
+            model.position.z = -100;
+            model.position.x = 0;
+            model.position.y = 113/2;
+
+            
+            var animate = function() {
+                requestAnimationFrame(animate);
+
+                if (mixers.length > 0) {
+                    for (var i = 0; i < mixers.length; i++) {
+                        mixers[i].update(clock.getDelta());
+                    }
+                }
+
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+
+                renderer.render(scene, camera);
+            };
+
+            requestAnimationFrame(animate);
+        }
+    );
+    </script>
+</body>
