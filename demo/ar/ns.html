@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子陪护证</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+        border: 0;
+    }
+    body{
+        background: #f6f6f6;
+    }
+    .green{
+        color: #76ba9f;
+        font-size: 14px;
+    }
+
+    /*main*/
+    .main{
+        margin: 0 20px;
+        padding: 15px 20px;
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    .head{
+        text-align: center;
+    }
+    .head .num{
+        font-size: 12px;
+        color: #2f2f2f;
+    }
+    .head .num_detail{
+        font-size: 16px;
+        color: #3251cd;
+    }
+
+    .hesuan{
+        text-align: center;
+        margin: 15px 0;
+        font-size: 13px;
+        color: #404040;
+    }
+    
+    .time_l{
+        margin: 15px 0px;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    .time{
+        color: #3a58e6;
+        background: #f6f6f6;
+        border-radius: 15px;
+        text-align: center;
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .line_2{
+        border:1px solid #f6f6f6;
+        margin: 15px 0;
+    }
+
+    .main .info{
+        text-align: center;
+        line-height: 1.5em;
+    }
+
+    .img_qr{
+        width: 144px;
+        height: 144px;
+    }
+    .img_tx{
+        display: inline-block;
+        background: #f6f6f6;
+        padding: 5px 20px;
+        width: 90px;
+        height: 124px;
+    }
+
+    /*notie*/
+    .notice{
+        margin: 0 20px;
+        margin-top: 25px;
+    }
+    .notice_title{
+        
+        line-height: 1.5em;
+    }
+    .notice_detail{
+        line-height: 1.5em;
+        color: #838383;
+        font-size: 12px;
+    }
+
+    /*footer*/
+    .foot{
+        display: block;
+        width: 100%;
+        position: fixed;
+        bottom: 0px;
+    }
+    .foot .btn_1{
+        display: inline-block;
+        float: left;
+        width: 50%;
+        text-align: center;
+        line-height: 44px;
+        background: #fff;
+        color: #838383;
+    }
+    .foot .btn_2{
+        display: inline-block;
+        float: right;
+        width: 50%;
+        text-align: center;
+        line-height: 44px;
+        background: #3a58e6;
+        color: #fff;
+    }
+</style>
+<script>
+    setInterval(function(){
+        var date = new Date()
+        var text = '当前时间：2021年09月'
+        var day = ('00' + date.getDate()).slice(-2)
+        var hours = ('00' + date.getHours()).slice(-2)
+        var min = ('00' + date.getMinutes()).slice(-2)
+        var sec = ('00' + date.getSeconds()).slice(-2)
+
+        text += day + '日 ' + hours + ':' + min + ':' + sec + ''
+
+        var time = 7 - (date.getDate() - 6)
+        document.getElementById('left_day').innerText = time + '天'
+
+
+        document.getElementById('cur_time').innerText = text
+    },1000)
+</script>
+<body>
+    <div>
+        <div>
+            <img src="./title.png" width="100%">
+        </div>
+    </div>
+    <div class="main">
+        <div class="head">
+            <span class="name">李欣欣</span>
+            <span class="num">（ 证件号：<span class="num_detail">4104**********4562</span> ）</span>
+        </div>
+        <div class="hesuan">
+            <span class="">核算检测：<span class="green">阴性</span>（2020年09月06日）</span>
+        </div>
+        <div class="line_1"></div>
+        <div class="">
+            <img class="img_qr" src="./qr.png" >
+            <img class="img_tx" src="./tx.jpeg" >
+        </div>
+        <div class="time_l">
+            剩余有效期：<span class="green" id="left_day">-天</span>
+        </div>
+        <div class="time" id="cur_time">当前时间：2021年-月-日 -:-:-</div>
+        <div class="line_2"></div>
+        <div class="info">
+            住院患者：华翠平（0020603855）| 肠胃外科病区 | 09-22
+        </div>
+    </div>
+
+    <div class="notice">
+        <div class="notice_title">陪护注意</div>
+        <div class="notice_detail">1、请持陪护证出入院区</div>
+        <div class="notice_detail">2、出院后陪护证自动失效</div>
+    </div>
+
+    <div class="foot">
+        <div class="btn_1">作废</div>
+        <div class="btn_2">再次申请</div>
+    </div>
+</body>
+</html>
